@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getConditionText } from '../utils/getConditionText'
+import { getConditionText } from '../../utils/getConditionText'
 
 function MissionCard({ mission, fleet, crew, onMissionComplete }) {
   const [progress, setProgress] = useState(mission.progress || 0)

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getConditionText } from '../utils/getConditionText'
+import { getConditionText } from '../../utils/getConditionText'
 
 function NewMissionForm({
   fleet,

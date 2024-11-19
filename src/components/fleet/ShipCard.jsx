@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getConditionText } from '../utils/getConditionText'
+import { getConditionText } from '../../utils/getConditionText'
 
 function ShipCard({ ship, onStatusUpdate }) {
   const [progress, setProgress] = useState(ship.maintenanceProgress || 0)
