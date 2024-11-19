@@ -25,12 +25,6 @@ function ShipCard({ ship, onStatusUpdate }) {
     return () => clearInterval(maintenanceInterval)
   }, [isInMaintenance, ship.id])
 
-  const getFuelColor = (fuel) => {
-    if (fuel >= 60) return 'text-green-400'
-    if (fuel >= 25) return 'text-yellow-400'
-    return 'text-red-400'
-  }
-
   return (
     <div className="bg-gray-700 p-3 rounded-md mb-2">
       <h3 className="font-semibold">{ship.name}</h3>
@@ -56,32 +50,42 @@ function ShipCard({ ship, onStatusUpdate }) {
         </select>
       </div>
 
-      {isInMaintenance && (
-        <div className="mt-3">
-          <div className="relative pt-1">
-            <div className="flex mb-2 items-center justify-between">
-              <div>
-                <span className="text-xs font-semibold inline-block text-blue-400">
-                  Maintenance Progress
-                </span>
-              </div>
-              <div className="text-right">
-                <span className="text-xs font-semibold inline-block text-blue-400">
-                  {Math.round(progress)}%
-                </span>
-              </div>
-            </div>
-            <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-600">
-              <div
-                style={{ width: `${progress}%` }}
-                className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 transition-all duration-100"
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      {isInMaintenance && <MaintenanceProgress progress={progress} />}
     </div>
   )
+}
+
+function MaintenanceProgress({ progress }) {
+  return (
+    <div className="mt-3">
+      <div className="relative pt-1">
+        <div className="flex mb-2 items-center justify-between">
+          <div>
+            <span className="text-xs font-semibold inline-block text-blue-400">
+              Maintenance Progress
+            </span>
+          </div>
+          <div className="text-right">
+            <span className="text-xs font-semibold inline-block text-blue-400">
+              {Math.round(progress)}%
+            </span>
+          </div>
+        </div>
+        <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-600">
+          <div
+            style={{ width: `${progress}%` }}
+            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500 transition-all duration-100"
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function getFuelColor(fuel) {
+  if (fuel >= 60) return 'text-green-400'
+  if (fuel >= 25) return 'text-yellow-400'
+  return 'text-red-400'
 }
 
 export default ShipCard
