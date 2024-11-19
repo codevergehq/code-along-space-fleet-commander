@@ -7,28 +7,17 @@ import AlertSystem from './components/AlertSystem'
 
 const INITIAL_FLEET = [
   { id: 1, name: "Stellar Voyager", status: "docked", fuelLevel: 100, condition: 100, maintenanceProgress: 0 },
-  { id: 2, name: "Nova Explorer", status: "maintenance", fuelLevel: 85, condition: 90, maintenanceProgress: 45 },
-  { id: 3, name: "Cosmic Pioneer", status: "mission", fuelLevel: 60, condition: 75, maintenanceProgress: 0 }
+  { id: 2, name: "Nova Explorer", status: "docked", fuelLevel: 85, condition: 90, maintenanceProgress: 0 },
+  { id: 3, name: "Cosmic Pioneer", status: "docked", fuelLevel: 35, condition: 40, maintenanceProgress: 0 }
 ]
 
 const INITIAL_CREW = [
   { id: 1, name: "Cmdr. Sarah Chen", rank: "Commander", specialty: "Navigation", status: "available" },
-  { id: 2, name: "Lt. James Wilson", rank: "Lieutenant", specialty: "Engineering", status: "on-mission" },
+  { id: 2, name: "Lt. James Wilson", rank: "Lieutenant", specialty: "Engineering", status: "available" },
   { id: 3, name: "Dr. Maya Patel", rank: "Science Officer", specialty: "Xenobiology", status: "available" }
 ]
 
-const INITIAL_MISSIONS = [
-  { 
-    id: 1, 
-    name: "Nebula Research",
-    status: "in-progress",
-    assignedShip: 3,
-    assignedCrew: [2],
-    priority: "high",
-    startTime: Date.now(),
-    progress: 0
-  }
-]
+const INITIAL_MISSIONS = []
 
 function App() {
   const [fleet, setFleet] = useState(INITIAL_FLEET)
