@@ -1,6 +1,9 @@
 import ShipCard from './ShipCard'
+import { useSystem } from '../../contexts/SystemContext'
 
-function FleetManagement({ fleet, setFleet, addAlert }) {
+function FleetManagement({ fleet, setFleet }) {
+    const { addAlert } = useSystem()
+
     const updateShipStatus = (shipId, newStatus) => {
         const ship = fleet.find(s => s.id === shipId)
 

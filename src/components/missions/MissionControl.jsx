@@ -3,8 +3,10 @@ import { useState } from 'react'
 import MissionCard from './MissionCard'
 import NewMissionForm from './NewMissionForm'
 import Modal from '../ui/Modal'
+import { useSystem } from '../../contexts/SystemContext'
+function MissionControl({ missions, setMissions, fleet, setFleet, crew, setCrew }) {
+  const { addAlert } = useSystem()
 
-function MissionControl({ missions, setMissions, fleet, setFleet, crew, setCrew, addAlert }) {
   const [isNewMissionModalOpen, setIsNewMissionModalOpen] = useState(false)
 
   const handleMissionComplete = (missionId, success) => {

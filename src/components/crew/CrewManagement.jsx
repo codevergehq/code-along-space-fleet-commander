@@ -1,6 +1,9 @@
 import CrewCard from './CrewCard'
+import { useSystem } from '../../contexts/SystemContext'
 
-function CrewManagement({ crew, setCrew, addAlert }) {
+function CrewManagement({ crew, setCrew }) {
+  const { addAlert } = useSystem()
+
   const updateCrewStatus = (crewId, newStatus) => {
     const member = crew.find(m => m.id === crewId)
     if (member.status === 'on-mission') {

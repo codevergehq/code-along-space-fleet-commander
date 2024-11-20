@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import { getConditionText } from '../../utils/getConditionText'
-
+import { useSystem } from '../../contexts/SystemContext'
 function NewMissionForm({
   fleet,
   setFleet,
   crew,
   setCrew,
   setMissions,
-  addAlert,
   onComplete
 }) {
+  const { addAlert } = useSystem()
+
   const [missionData, setMissionData] = useState({
     name: '',
     priority: 'medium',
