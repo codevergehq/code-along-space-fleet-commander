@@ -43,6 +43,12 @@ export function FleetProvider({ children }) {
     ))
   }
 
+  const updateMaintenanceProgress = (shipId, progress) => {
+    setFleet(prev => prev.map(ship =>
+      ship.id === shipId ? { ...ship, maintenanceProgress: progress } : ship
+    ))
+  }
+
   const completeMaintenance = (shipId) => {
     setFleet(prev => prev.map(ship =>
       ship.id === shipId
@@ -92,6 +98,7 @@ export function FleetProvider({ children }) {
     getShipById,
     updateShipStatus,
     startMaintenance,
+    updateMaintenanceProgress,
     completeMaintenance,
     updateShipFuel,
     updateShipCondition,

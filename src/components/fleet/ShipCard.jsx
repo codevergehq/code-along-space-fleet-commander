@@ -1,31 +1,52 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import { getConditionText } from '../../utils/getConditionText'
+import { useFleet } from '../../contexts/FleetContext'
 
-function ShipCard({ ship, onStatusUpdate }) {
-  const [progress, setProgress] = useState(ship.maintenanceProgress || 0)
+function ShipCard({ shipId, onStatusUpdate }) {
+	const {
+		getShipById,
+    updateShipStatus,
+    startMaintenance,
+    completeMaintenance,
+    updateMaintenanceProgress
+	} = useFleet()
+
+	const ship = getShipById(shipId)
+
+	if(!ship) return null
+
+	const condition = getConditionText(ship.condition)
   const isOnMission = ship.status === 'mission'
   const isInMaintenance = ship.status === 'maintenance'
-  const condition = getConditionText(ship.condition)
 
-  // Maintenance progress effect
-  useEffect(() => {
-    if (!isInMaintenance) return
+  const handleStatusChange = (e) => {
+    if (e.target.value === 'maintenance') {
+      startMaintenance(ship.id);
+    }
+    updateShipStatus(ship.id, e.target.value);
+  }
 
-    const maintenanceInterval = setInterval(() => {
-      setProgress(currentProgress => {
-        if (currentProgress >= 100) {
-          clearInterval(maintenanceInterval)
+	// Maintenance progress effect
+  React.useEffect(() => {
+    let maintenanceInterval = null
+
+    if (isInMaintenance) {
+      maintenanceInterval = setInterval(() => {
+        if (ship.maintenanceProgress >= 100) {
+          completeMaintenance(ship.id)
           onStatusUpdate(ship.id, 'maintenance-complete')
-          return 100
+        } else {
+          updateMaintenanceProgress(ship.id, ship.maintenanceProgress + 1)
         }
-        return currentProgress + 1
-      })
-    }, 300) // Complete maintenance in 30 seconds (300ms * 100)
+      }, 300) // Complete maintenance in 30 seconds (300ms * 100)
+    }
 
-    return () => clearInterval(maintenanceInterval)
-  }, [isInMaintenance, ship.id])
+    return () => {
+      if (maintenanceInterval) clearInterval(maintenanceInterval)
+    }
+  }, [isInMaintenance, ship.id, ship.maintenanceProgress])
 
-  return (
+	return (
     <div className="bg-gray-700 p-3 rounded-md mb-2">
       <h3 className="font-semibold">{ship.name}</h3>
       <div className="grid grid-cols-2 gap-2 text-sm mt-2">
@@ -41,7 +62,7 @@ function ShipCard({ ship, onStatusUpdate }) {
         <select
           className={`bg-gray-600 rounded ${(isOnMission || isInMaintenance) ? 'opacity-50 cursor-not-allowed' : ''}`}
           value={ship.status}
-          onChange={(e) => onStatusUpdate(ship.id, e.target.value)}
+          onChange={handleStatusChange}
           disabled={isOnMission || isInMaintenance}
         >
           <option value="docked">Docked</option>
@@ -50,7 +71,7 @@ function ShipCard({ ship, onStatusUpdate }) {
         </select>
       </div>
 
-      {isInMaintenance && <MaintenanceProgress progress={progress} />}
+      {isInMaintenance && <MaintenanceProgress progress={ship.maintenanceProgress} />}
     </div>
   )
 }

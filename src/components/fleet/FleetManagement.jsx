@@ -49,7 +49,7 @@ function FleetManagement({ fleet, setFleet, addAlert }) {
             {fleet.map(ship => (
                 <ShipCard
                     key={ship.id}
-                    ship={ship}
+                    shipId={ship.id}
                     onStatusUpdate={updateShipStatus}
                 />
             ))}
