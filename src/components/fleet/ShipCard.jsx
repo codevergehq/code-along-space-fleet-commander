@@ -1,11 +1,12 @@
 import React from 'react'
 import { getConditionText } from '../../utils/getConditionText'
 import { useFleet } from '../../contexts/FleetContext'
+import { useSystem } from '../../contexts/SystemContext'
 
-function ShipCard({ shipId, onStatusUpdate }) {
+function ShipCard({ shipId }) {
+  const { addAlert } = useSystem()
 	const {
 		getShipById,
-    updateShipStatus,
     startMaintenance,
     completeMaintenance,
     updateMaintenanceProgress
@@ -22,8 +23,8 @@ function ShipCard({ shipId, onStatusUpdate }) {
   const handleStatusChange = (e) => {
     if (e.target.value === 'maintenance') {
       startMaintenance(ship.id);
+      addAlert(`${ship.name} entered maintenance bay`)
     }
-    updateShipStatus(ship.id, e.target.value);
   }
 
 	// Maintenance progress effect
@@ -34,7 +35,7 @@ function ShipCard({ shipId, onStatusUpdate }) {
       maintenanceInterval = setInterval(() => {
         if (ship.maintenanceProgress >= 100) {
           completeMaintenance(ship.id)
-          onStatusUpdate(ship.id, 'maintenance-complete')
+          addAlert(`${ship.name} maintenance complete - All systems restored`, 'success')
         } else {
           updateMaintenanceProgress(ship.id, ship.maintenanceProgress + 1)
         }

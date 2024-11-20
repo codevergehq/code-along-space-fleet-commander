@@ -4,6 +4,7 @@ import MissionCard from './MissionCard'
 import NewMissionForm from './NewMissionForm'
 import Modal from '../ui/Modal'
 import { useSystem } from '../../contexts/SystemContext'
+
 function MissionControl({ missions, setMissions, fleet, setFleet, crew, setCrew }) {
   const { addAlert } = useSystem()
 
