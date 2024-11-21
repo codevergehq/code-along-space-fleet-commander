@@ -33,7 +33,7 @@ function ShipCard({ shipId }) {
 
     if (isInMaintenance) {
       maintenanceInterval = setInterval(() => {
-        if (ship.maintenanceProgress >= 100) {
+        if (ship.maintenanceProgress >= 1) {
           completeMaintenance(ship.id)
           addAlert(`${ship.name} maintenance complete - All systems restored`, 'success')
         } else {

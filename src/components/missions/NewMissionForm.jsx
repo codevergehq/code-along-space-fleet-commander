@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import { getConditionText } from '../../utils/getConditionText'
 import { useSystem } from '../../contexts/SystemContext'
+import { useFleet } from '../../contexts/FleetContext'
+
 function NewMissionForm({
-  fleet,
-  setFleet,
   crew,
   setCrew,
   setMissions,
   onComplete
 }) {
+  const { fleet, getAvailableShips, updateShipStatus } = useFleet()
   const { addAlert } = useSystem()
 
   const [missionData, setMissionData] = useState({
@@ -18,11 +19,7 @@ function NewMissionForm({
     assignedCrew: [],
   })
 
-  const availableShips = fleet.filter(ship =>
-    ship.status === 'docked' &&
-    ship.fuelLevel >= 25 &&
-    ship.condition >= 30
-  )
+  const availableShips = getAvailableShips()
 
   const availableCrew = crew.filter(member =>
     member.status === 'available'
@@ -39,17 +36,6 @@ function NewMissionForm({
 
     if (!missionData.assignedShip) {
       addAlert('Please assign a ship', 'error')
-      return
-    }
-
-    const selectedShip = fleet.find(ship => ship.id === parseInt(missionData.assignedShip))
-    if (selectedShip.fuelLevel < 25) {
-      addAlert('Ship fuel level too low for mission', 'error')
-      return
-    }
-
-    if (selectedShip.condition < 30) {
-      addAlert('Ship condition too poor for mission', 'error')
       return
     }
 
@@ -70,11 +56,7 @@ function NewMissionForm({
     }
 
     setMissions(prev => [...prev, newMission])
-    setFleet(prev => prev.map(ship =>
-      ship.id === parseInt(missionData.assignedShip)
-        ? { ...ship, status: 'mission' }
-        : ship
-    ))
+    updateShipStatus(parseInt(missionData.assignedShip), 'mission')
     setCrew(prev => prev.map(member =>
       missionData.assignedCrew.includes(member.id)
         ? { ...member, status: 'on-mission' }

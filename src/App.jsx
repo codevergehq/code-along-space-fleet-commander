@@ -7,12 +7,6 @@ import AlertSystem from './components/ui/AlertSystem'
 import { FleetProvider } from './contexts/FleetContext'
 import { SystemProvider } from './contexts/SystemContext'
 
-const INITIAL_FLEET = [
-  { id: 1, name: "Stellar Voyager", status: "docked", fuelLevel: 100, condition: 100, maintenanceProgress: 0 },
-  { id: 2, name: "Nova Explorer", status: "docked", fuelLevel: 85, condition: 90, maintenanceProgress: 0 },
-  { id: 3, name: "Cosmic Pioneer", status: "docked", fuelLevel: 35, condition: 40, maintenanceProgress: 0 }
-]
-
 const INITIAL_CREW = [
   { id: 1, name: "Cmdr. Sarah Chen", rank: "Commander", specialty: "Navigation", status: "available" },
   { id: 2, name: "Lt. James Wilson", rank: "Lieutenant", specialty: "Engineering", status: "available" },
@@ -22,7 +16,6 @@ const INITIAL_CREW = [
 const INITIAL_MISSIONS = []
 
 function App() {
-  const [fleet, setFleet] = useState(INITIAL_FLEET)
   const [crew, setCrew] = useState(INITIAL_CREW)
   const [missions, setMissions] = useState(INITIAL_MISSIONS)
 
@@ -44,8 +37,6 @@ function App() {
               <MissionControl
                 missions={missions}
                 setMissions={setMissions}
-                fleet={fleet}
-                setFleet={setFleet}
                 crew={crew}
                 setCrew={setCrew}
               />

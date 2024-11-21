@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { getConditionText } from '../../utils/getConditionText'
+import { useFleet } from '../../contexts/FleetContext'
 
-function MissionCard({ mission, fleet, crew, onMissionComplete }) {
+function MissionCard({ mission, crew, onMissionComplete }) {
+  const { fleet } = useFleet()
   const [progress, setProgress] = useState(mission.progress || 0)
   const duration = 60 * 1000 // 60 seconds in milliseconds
 
@@ -9,14 +11,14 @@ function MissionCard({ mission, fleet, crew, onMissionComplete }) {
     if (mission.status !== 'in-progress') return
 
     const startTime = mission.startTime
-    const updateInterval = 100 // Update every 100ms for smooth progress
+    const updateInterval = 10 // Update every 100ms for smooth progress
 
     const timer = setInterval(() => {
       const elapsed = Date.now() - startTime
       const currentProgress = Math.min((elapsed / duration) * 100, 100)
       setProgress(currentProgress)
 
-      if (currentProgress >= 100) {
+      if (currentProgress >= 1) {
         clearInterval(timer)
         // 70% chance of success
         const success = Math.random() < 0.7

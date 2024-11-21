@@ -74,12 +74,12 @@ export function FleetProvider({ children }) {
     ))
   }
 
-  const updateShipCondition = (shipId, conditionChange) => {
+  const updateShipCondition = (shipId, condition) => {
     setFleet(prev => prev.map(ship =>
       ship.id === shipId
         ? {
           ...ship,
-          condition: Math.max(0, Math.min(100, ship.condition + conditionChange))
+          condition,
         }
         : ship
     ))
